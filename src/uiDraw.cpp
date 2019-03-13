@@ -36,6 +36,8 @@ float colors[3][10] = {
   {0.0800, 0.4706, 0.4000, 0.3294, 0.2588, 0.1506, 0.5000, 0.8980, 0.5000, 0.8672},  // Green
   {0.0800, 0.2392, 0.2000, 0.1686, 0.1294, 0.0800, 0.5000, 0.2000, 0.8000, 0.3047}}; // Blue
 
+// 2D drawing
+
 // Draw a tile on the screen
 void drawTile(int xCoord, int yCoord, int xOffset, int yOffset, float scale, int type, int base)
 {
@@ -102,6 +104,36 @@ void drawCenterBox(float scale)
     1, 1, 0);
 }
 
+// 3D drawing
+
+void setup3DFrame(const float camera[6])
+{
+  // clear the drawing buffer.
+  glClear(GL_COLOR_BUFFER_BIT);
+  glLoadIdentity();
+
+  // Move the camera
+  glRotatef(camera[4] * 180 / M_PI, 0, 1, 0);
+  glTranslatef(camera[0],camera[1],camera[2]);
+}
+
+void drawTile3D(int xCoord, int yCoord, int type, int base)
+{
+  glBegin(GL_TRIANGLES);
+    glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+    glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
+    glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+  glEnd();
+  glBegin(GL_TRIANGLES);
+    glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+    glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
+    glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+  glEnd();
+  // glFlush();
+
+}
 
 // Draw text on the screen from specific coordinates
 void drawText(int x, int y, const char * text)

@@ -1,12 +1,16 @@
 #ifndef UI_DRAW_H
 #define UI_DRAW_H
 
+#include <math.h>
 
 // Drawing functions for various game items
 void drawTile(int xCoord, int yCoord, int xOffset, int yOffset, float scale, int type, int base);
 void drawCharacter(float xCoord, float yCoord, int xOffset, int yOffset, float scale);
 void drawItem(float xCoord, float yCoord, int type, int xOffset, int yOffset, float scale);
 void drawCenterBox(float scale);
+
+void setup3DFrame(const float camera[6]);
+void drawTile3D(int xCoord, int yCoord, int type, int base);
 
 // General drawing functions
 

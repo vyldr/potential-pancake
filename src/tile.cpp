@@ -17,6 +17,13 @@ void Tile::draw(int xOffset, int yOffset, float scale) const
     drawTile(xCoord, yCoord, xOffset, yOffset, scale, type, base);
 }
 
+// Give the display function everything it needs to draw the tile in 3D
+void Tile::draw3D() const
+{
+  if (visible)
+    drawTile3D(xCoord, yCoord, type, base);
+}
+
 // Reduce the strength.  Destroy if strength hits 0
 void Tile::takeDamage(int damage)
 {

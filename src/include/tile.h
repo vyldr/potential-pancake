@@ -34,6 +34,7 @@ public:
 
 
   void draw(int xOffset, int yOffset, float scale) const;
+  void draw3D() const;
   void takeDamage(int damage);
 
 

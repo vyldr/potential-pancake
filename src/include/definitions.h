@@ -9,17 +9,17 @@
 #define X         61
 #define Y         41
 
-#define TILE_SIZE 16
+#define TILE_SIZE 1
 
-#define CHARACTER_SIZE TILE_SIZE / 8
+#define CHARACTER_SIZE 16 / 8
 #define CHARACTER_SPEED FRAMERATE / 2
 
 #define ITEM_SIZE TILE_SIZE / 16.0
 
 #define SCALE 4
 // 8n + 1 Size of the window
-#define X_SIZE    (TILE_SIZE * X + 1)
-#define Y_SIZE    (TILE_SIZE * Y + 1)
+#define X_SIZE    (16 * 61 + 1)
+#define Y_SIZE    (16 * 41 + 1)
 
 
 

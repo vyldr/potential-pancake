@@ -150,6 +150,8 @@ void keypressCallback(unsigned char key, int x, int y)
     case '-':
       gameWindow.keyMinusPress = true;
       break;
+    case 'q':
+      exit(EXIT_SUCCESS);
   }
 }
 
@@ -197,7 +199,7 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
     return;
 
 // Set up the RNG
-  srand((long)(4)); // TODO: Use a command line argument as a seed
+  srand((long)(4)); // TODO: Add a way to pass in a seed
 
   // Set the boundaries for the window
   int xMin = (-(X_SIZE / 2) - 1);
@@ -215,7 +217,7 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   glutIgnoreKeyRepeat(true);
 
   // Set up the drawing style
-  glClearColor(0, 0, 0, 0); // Ser black as the background color
+  glClearColor(0, 0, 0, 0); // Set black as the background color
   gluOrtho2D(xMin, xMax, yMin, yMax); // 2D environment
 
   // Let OpenGL know how to call our functions
@@ -224,6 +226,13 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   glutKeyboardFunc(  keypressCallback     );
   glutSpecialFunc(   arrowKeyDownCallback );
   glutSpecialUpFunc( arrowKeyUpCallback   );
+  
+  // Set up the perspective view
+  glMatrixMode(GL_PROJECTION);  
+  glLoadIdentity();
+  gluPerspective(40.0, X_SIZE / Y_SIZE, 0.5, 60.0);
+  glMatrixMode(GL_MODELVIEW);
+
   initialized = true; // Initialization complete
 
   return;

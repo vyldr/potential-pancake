@@ -20,8 +20,16 @@ Game::Game() : gameOver(false), xOffset(X_SIZE / 2), yOffset(Y_SIZE / 2), scale(
         map[x][y].setBase();
 
         // Make the view start on the base
-        xOffset = (x + 0.5) * TILE_SIZE;
-        yOffset = (y + 0.5) * TILE_SIZE;
+        // xOffset = (x + 0.5) * TILE_SIZE;
+        // yOffset = (y + 0.5) * TILE_SIZE;
+
+        // Start the camera at the base
+        // Position
+        camera[0] = -(x + 0.5);
+        camera[2] = -(y + 0.5);
+        camera[1] = -0.5;
+        // Angle
+        camera[4] = 0;
 
         // Starting characters
         for (int i = 0; i < 3; i++)
@@ -106,14 +114,28 @@ void Game :: isTaskDone(auto it)
 void Game :: input(const GameWindow & gameWindow)
 {
   // Shift the view
+  // if (gameWindow.keyUp())
+  //   chvar.changeIt(yOffset, yOffset + TILE_SIZE, VIEW_SPEED);
+  // if (gameWindow.keyDown())
+  //   chvar.changeIt(yOffset, yOffset - TILE_SIZE, VIEW_SPEED);
+  // if (gameWindow.keyLeft())
+  //   chvar.changeIt(xOffset, xOffset - TILE_SIZE, VIEW_SPEED);
+  // if (gameWindow.keyRight())
+  //   chvar.changeIt(xOffset, xOffset + TILE_SIZE, VIEW_SPEED);
   if (gameWindow.keyUp())
-    chvar.changeIt(yOffset, yOffset + TILE_SIZE, VIEW_SPEED);
+  {
+    camera[2] += 0.1 * cos(camera[4]);
+    camera[0] -= 0.1 * sin(camera[4]);
+  }
   if (gameWindow.keyDown())
-    chvar.changeIt(yOffset, yOffset - TILE_SIZE, VIEW_SPEED);
+  {
+    camera[2] -= 0.1 * cos(camera[4]);
+    camera[0] += 0.1 * sin(camera[4]);
+  }
   if (gameWindow.keyLeft())
-    chvar.changeIt(xOffset, xOffset - TILE_SIZE, VIEW_SPEED);
+    camera[4] -= 0.02;
   if (gameWindow.keyRight())
-    chvar.changeIt(xOffset, xOffset + TILE_SIZE, VIEW_SPEED);
+    camera[4] += 0.02;
 
   // Zoom in and out
   if (gameWindow.keyPlus())
@@ -122,8 +144,8 @@ void Game :: input(const GameWindow & gameWindow)
     chvar.changeIt(scale, scale / 2, VIEW_SPEED * 2);
 
   // Some action
-  if (gameWindow.keySpace())
-    addClearOrder();
+  // if (gameWindow.keySpace())
+  //   addClearOrder();
 }
 
 void Game :: addClearOrder()
@@ -172,6 +194,19 @@ void Game :: draw() const
 
 }
 
+// Draw the frame in 3D.  This is better than 2D in every way
+void Game :: draw3D() const
+{
+  setup3DFrame(camera);
+
+  // Draw the tiles
+  for (int i = 0; i < X; i++)
+    for (int j = 0; j < Y; j++)
+      map[i][j].draw3D();
+
+  drawTile3D(0, 0, 0, 0);
+}
+
 // Callback function, runs once every frame
 void callBack(const GameWindow *pUI, void *p)
 {
@@ -179,7 +214,7 @@ void callBack(const GameWindow *pUI, void *p)
 
   pGame->input(*pUI);
   pGame->advance();
-  pGame->draw();
+  pGame->draw3D();
 }
 
 // Main just initializes the game and calls the display engine

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <list>
+#include <math.h>
 
 #include "definitions.h"
 
@@ -30,6 +31,7 @@ private:
     int yOffset;
     float scale;
     Chvar chvar;
+    float camera[6];
     // TODO: list of priorities
 
 
@@ -42,6 +44,9 @@ private:
 
     // draw stuff
     void draw() const;
+
+    // draw stuff in 3D!
+    void draw3D() const;
 
     // create the game
     Game();
