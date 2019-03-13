@@ -92,6 +92,16 @@ void drawCallback()
   gameWindow.keyMinusPress = false;
 }
 
+void resize(int x, int y)
+{
+  // Set up the perspective view
+  glMatrixMode(GL_PROJECTION);  
+  glLoadIdentity();
+  gluPerspective(40.0, x / y, 0.3, 40.0);
+  glMatrixMode(GL_MODELVIEW);
+  glViewport(0, 0, x, y);
+}
+
 
 // Handle the arrow keys
 void arrowKeyDownCallback(int key, int x, int y)
@@ -223,16 +233,12 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
 
   // Let OpenGL know how to call our functions
   glutDisplayFunc(   drawCallback         );
+  glutReshapeFunc(   resize               );
   glutIdleFunc(      drawCallback         );
   glutKeyboardFunc(  keypressCallback     );
   glutSpecialFunc(   arrowKeyDownCallback );
   glutSpecialUpFunc( arrowKeyUpCallback   );
   
-  // Set up the perspective view
-  glMatrixMode(GL_PROJECTION);  
-  glLoadIdentity();
-  gluPerspective(40.0, X_SIZE / Y_SIZE, 0.3, 40.0);
-  glMatrixMode(GL_MODELVIEW);
 
   initialized = true; // Initialization complete
 
