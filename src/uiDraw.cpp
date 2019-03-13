@@ -109,7 +109,7 @@ void drawCenterBox(float scale)
 void setup3DFrame(const float camera[6])
 {
   // clear the drawing buffer.
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
 
   // Move the camera
@@ -119,20 +119,91 @@ void setup3DFrame(const float camera[6])
 
 void drawTile3D(int xCoord, int yCoord, int type, int base)
 {
-  glBegin(GL_TRIANGLES);
-    glColor3f(colors[0][type], colors[1][type], colors[2][type]);
-    glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
-    glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
-    glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
-  glEnd();
-  glBegin(GL_TRIANGLES);
-    glColor3f(colors[0][type], colors[1][type], colors[2][type]);
-    glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
-    glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
-    glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
-  glEnd();
-  // glFlush();
+  if (type == 0)
+  {
+    // Draw Floor
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+    glEnd();
 
+    // Draw Ceiling
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 1.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 1.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+    glEnd();
+    // glFlush();
+  }
+  else
+  {
+    // Draw Walls
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 1.0f, 0.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 1.0f, 1.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 1.0f + xCoord, 1.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 1.0f, 1.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
+      glVertex3f( 0.0f + xCoord, 1.0f, 0.0f + yCoord);
+    glEnd();
+    glBegin(GL_TRIANGLES);
+      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+      glVertex3f( 0.0f + xCoord, 1.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+    glEnd();
+
+  }
+  
 }
 
 // Draw text on the screen from specific coordinates

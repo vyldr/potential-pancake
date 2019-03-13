@@ -124,13 +124,24 @@ void Game :: input(const GameWindow & gameWindow)
   //   chvar.changeIt(xOffset, xOffset + TILE_SIZE, VIEW_SPEED);
   if (gameWindow.keyUp())
   {
-    camera[2] += 0.1 * cos(camera[4]);
-    camera[0] -= 0.1 * sin(camera[4]);
+    float dz = 0.1 * cos(camera[4]);
+    float dx = 0.1 * sin(camera[4]);
+    if (map[-(int)(camera[0] - dx)][-(int)(camera[2] + dz)].getType() == 0)
+    {
+      camera[2] += dz;
+      camera[0] -= dx;
+    }
+    std::cout << camera[0] << std::endl;
   }
   if (gameWindow.keyDown())
   {
-    camera[2] -= 0.1 * cos(camera[4]);
-    camera[0] += 0.1 * sin(camera[4]);
+    float dz = 0.1 * cos(camera[4]);
+    float dx = 0.1 * sin(camera[4]);
+    if (map[(int) -(camera[0] + dx)][(int) -(camera[2] - dz)].getType() == 0)
+    {
+      camera[2] -= dz;
+      camera[0] += dx;
+    }
   }
   if (gameWindow.keyLeft())
     camera[4] -= 0.02;

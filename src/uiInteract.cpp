@@ -212,13 +212,14 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   glutInitWindowSize(xMax - xMin, yMax - yMin); // Size of the window
 
   glutInitWindowPosition( 350, 50); // Set initial position
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  // double buffering
   glutCreateWindow(title); // Set window title
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);  // double buffering
   glutIgnoreKeyRepeat(true);
 
   // Set up the drawing style
   glClearColor(0, 0, 0, 0); // Set black as the background color
   gluOrtho2D(xMin, xMax, yMin, yMax); // 2D environment
+  glEnable(GL_DEPTH_TEST);
 
   // Let OpenGL know how to call our functions
   glutDisplayFunc(   drawCallback         );
@@ -230,7 +231,7 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   // Set up the perspective view
   glMatrixMode(GL_PROJECTION);  
   glLoadIdentity();
-  gluPerspective(40.0, X_SIZE / Y_SIZE, 0.5, 60.0);
+  gluPerspective(40.0, X_SIZE / Y_SIZE, 0.3, 40.0);
   glMatrixMode(GL_MODELVIEW);
 
   initialized = true; // Initialization complete
