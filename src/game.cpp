@@ -165,6 +165,7 @@ void Game :: input(const GameWindow & gameWindow)
 void Game :: addClearOrder()
 {
   Task task;
+  bool targetFound = false;
   for (float i = 0; i < 3; i += 0.1)
   {
     float dz = i * cos(camera[4]);
@@ -173,14 +174,22 @@ void Game :: addClearOrder()
     // Find the wall we are pointing at
     if (map[-(int)(camera[0] - dx)][-(int)(camera[2] + dz)].getType() != 0)
     {
+      targetFound = true;
       task.targetX = -(int)(camera[0] - dx);
       task.targetY = -(int)(camera[2] + dz);
       break;
     }
 
   }
+
+  // Don't continue if we didn't hit anything
+  if (!targetFound)
+    return;
+
+  // Don't try if the target is indestructable
   if (map[task.targetX][task.targetY].getType() == 5)
     return;
+
   task.action = 'd';
   taskList.push_back(task);
 }
