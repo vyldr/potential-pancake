@@ -35,6 +35,9 @@
 //#include "include/point.h"
 #include "include/definitions.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "include/stb_image.h"
+
 
 // Sleep until it is time to draw again
 void sleep(unsigned long msSleep)
@@ -97,7 +100,7 @@ void resize(int x, int y)
   // Set up the perspective view
   glMatrixMode(GL_PROJECTION);  
   glLoadIdentity();
-  gluPerspective(40.0, x / y, 0.3, 40.0);
+  gluPerspective(60.0, (float)x / (float)y, 0.3, 40.0);
   glMatrixMode(GL_MODELVIEW);
   glViewport(0, 0, x, y);
 }
@@ -208,7 +211,7 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   if (initialized)
     return;
 
-// Set up the RNG
+  // Set up the RNG
   srand((long)(4)); // TODO: Add a way to pass in a seed
 
   // Set the boundaries for the window
@@ -230,6 +233,13 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   glClearColor(0, 0, 0, 0); // Set black as the background color
   gluOrtho2D(xMin, xMax, yMin, yMax); // 2D environment
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_TEXTURE_2D);
+
+  // Make everything fade into darkness
+  glEnable(GL_FOG);
+  glFogf(GL_FOG_MODE,GL_LINEAR);
+  glFogf(GL_FOG_START,3);
+  glFogf(GL_FOG_END,10);
 
   // Let OpenGL know how to call our functions
   glutDisplayFunc(   drawCallback         );
@@ -238,9 +248,10 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   glutKeyboardFunc(  keypressCallback     );
   glutSpecialFunc(   arrowKeyDownCallback );
   glutSpecialUpFunc( arrowKeyUpCallback   );
-  
+
 
   initialized = true; // Initialization complete
+
 
   return;
 }

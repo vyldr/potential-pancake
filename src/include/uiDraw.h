@@ -11,6 +11,7 @@ void drawCenterBox(float scale);
 
 void setup3DFrame(const float camera[6]);
 void drawTile3D(int xCoord, int yCoord, int type, int base);
+void drawCrosshair();
 
 // General drawing functions
 

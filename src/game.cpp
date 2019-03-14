@@ -27,7 +27,7 @@ Game::Game() : gameOver(false), xOffset(X_SIZE / 2), yOffset(Y_SIZE / 2), scale(
         // Position
         camera[0] = -(x + 0.5);
         camera[2] = -(y + 0.5);
-        camera[1] = -0.5;
+        camera[1] = -0.2;
         // Angle
         camera[4] = 0;
 
@@ -124,8 +124,8 @@ void Game :: input(const GameWindow & gameWindow)
   //   chvar.changeIt(xOffset, xOffset + TILE_SIZE, VIEW_SPEED);
   if (gameWindow.keyUp())
   {
-    float dz = 0.1 * cos(camera[4]);
-    float dx = 0.1 * sin(camera[4]);
+    float dz = 0.05 * cos(camera[4]);
+    float dx = 0.05 * sin(camera[4]);
 
     // Make sure we don't hit a wall
     if (map[-(int)(camera[0] - dx)][-(int)(camera[2] + dz)].getType() == 0)
@@ -136,8 +136,8 @@ void Game :: input(const GameWindow & gameWindow)
   }
   if (gameWindow.keyDown())
   {
-    float dz = 0.1 * cos(camera[4]);
-    float dx = 0.1 * sin(camera[4]);
+    float dz = 0.01 * cos(camera[4]);
+    float dx = 0.01 * sin(camera[4]);
 
     // Make sure we don't hit a wall
     if (map[(int) -(camera[0] + dx)][(int) -(camera[2] - dz)].getType() == 0)
@@ -158,15 +158,27 @@ void Game :: input(const GameWindow & gameWindow)
     chvar.changeIt(scale, scale / 2, VIEW_SPEED * 2);
 
   // Some action
-  // if (gameWindow.keySpace())
-  //   addClearOrder();
+  if (gameWindow.keySpace())
+    addClearOrder();
 }
 
 void Game :: addClearOrder()
 {
   Task task;
-  task.targetX = xOffset / TILE_SIZE;
-  task.targetY = yOffset / TILE_SIZE;
+  for (float i = 0; i < 3; i += 0.1)
+  {
+    float dz = i * cos(camera[4]);
+    float dx = i * sin(camera[4]);
+
+    // Find the wall we are pointing at
+    if (map[-(int)(camera[0] - dx)][-(int)(camera[2] + dz)].getType() != 0)
+    {
+      task.targetX = -(int)(camera[0] - dx);
+      task.targetY = -(int)(camera[2] + dz);
+      break;
+    }
+
+  }
   if (map[task.targetX][task.targetY].getType() == 5)
     return;
   task.action = 'd';
@@ -218,7 +230,7 @@ void Game :: draw3D() const
     for (int j = 0; j < Y; j++)
       map[i][j].draw3D();
 
-  drawTile3D(0, 0, 0, 0);
+  drawCrosshair();
 }
 
 // Callback function, runs once every frame

@@ -206,6 +206,12 @@ void drawTile3D(int xCoord, int yCoord, int type, int base)
   
 }
 
+// Draw the crosshair for aiming
+void drawCrosshair()
+{
+  drawRectangle(1, 0, 10, 10, 0.5, 1.0, 0.5);
+}
+
 // Draw text on the screen from specific coordinates
 void drawText(int x, int y, const char * text)
 {
