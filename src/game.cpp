@@ -5,6 +5,7 @@
 // Create the Game
 Game::Game() : gameOver(false), xOffset(X_SIZE / 2), yOffset(Y_SIZE / 2), scale(SCALE)
 {
+  // Set up the map
   int intmap[X][Y]; // Create a temporary array of ints so mapgen doesn't depend on Tile
   mapgen(intmap);
   for (int x = 0; x < X; x++)
@@ -52,6 +53,9 @@ Game::Game() : gameOver(false), xOffset(X_SIZE / 2), yOffset(Y_SIZE / 2), scale(
 
 
   calculateVisibility(map); // Set initial visibility
+
+  // Set up the models
+  loadModels();
 }
 
 // advance the game one frame
@@ -98,6 +102,7 @@ void Game :: attackHere(auto it)
     if (map[it->getX()][it->getY()].getType() == 0)
     {
       it->doneWithTask();
+      while(restructure(map)); // Call this function until it returns false
       calculateVisibility(map);
     }
   }
@@ -229,6 +234,36 @@ void Game :: draw() const
 
 }
 
+void Game :: loadModels()
+{
+  // Open space
+  Model model;
+  Vertex ver[8];
+  ver[0] = {0,0,0};
+  ver[1] = {0,0,1};
+  ver[2] = {0,1,0};
+  ver[3] = {0,1,1};
+  ver[4] = {1,0,0};
+  ver[5] = {1,0,1};
+  ver[6] = {1,1,0};
+  ver[7] = {1,1,1};
+  for (int i = 0; i < 8; i++)
+  {
+    model.vertices.push_back(ver[i]);
+  }
+
+  Triangle tri[4];
+  tri[0] = {0,1,5};
+  tri[1] = {0,5,4};
+  tri[2] = {2,3,7};
+  tri[3] = {2,7,6};
+  for (int i = 0; i < 4; i++)
+  {
+    model.triangles.push_back(tri[i]);
+  }
+  models.push_back(model);
+}
+
 // Draw the frame in 3D.  This is better than 2D in every way
 void Game :: draw3D() const
 {
@@ -237,9 +272,15 @@ void Game :: draw3D() const
   // Draw the tiles
   for (int i = 0; i < X; i++)
     for (int j = 0; j < Y; j++)
-      map[i][j].draw3D();
+      if (map[i][j].isVisible())
+        drawTile3D(map[i][j].getx(),
+                   map[i][j].gety(), 
+                   map[i][j].getType(), 
+                   map[i][j].getBase(),
+                   models);
+      // map[i][j].draw3D();
 
-  drawCrosshair();
+
 }
 
 // Callback function, runs once every frame

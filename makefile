@@ -14,13 +14,13 @@ bin/$(PRGMNAME): build/game.o build/uiInteract.o build/uiDraw.o build/mapgen.o b
 
 
 
-build/game.o: src/game.cpp src/include/game.h src/include/uiDraw.h src/include/uiInteract.h src/include/mapgen.h src/include/algorithms.h src/include/chvar.h src/include/tile.h src/include/character.h src/include/task.h src/include/item.h src/include/definitions.h
+build/game.o: src/game.cpp src/include/game.h src/include/uiDraw.h src/include/uiInteract.h src/include/mapgen.h src/include/algorithms.h src/include/chvar.h src/include/tile.h src/include/character.h src/include/task.h src/include/item.h src/include/model.h src/include/definitions.h
 	g++ -g -o build/game.o -c src/game.cpp
 
 build/uiInteract.o: src/uiInteract.cpp src/include/uiInteract.h src/include/definitions.h
 	g++ -g -o build/uiInteract.o -c src/uiInteract.cpp
 
-build/uiDraw.o: src/uiDraw.cpp src/include/uiDraw.h src/include/definitions.h
+build/uiDraw.o: src/uiDraw.cpp src/include/uiDraw.h src/include/model.h src/include/definitions.h
 	g++ -g -o build/uiDraw.o -c src/uiDraw.cpp
 
 build/mapgen.o: src/mapgen.cpp src/include/mapgen.h src/include/definitions.h

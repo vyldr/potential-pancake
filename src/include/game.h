@@ -18,6 +18,7 @@
 #include "tile.h"
 #include "task.h"
 #include "item.h"
+#include "model.h"
 
 class Game
 {
@@ -27,6 +28,7 @@ private:
     std::list<Character> charList;
     std::list<Task> taskList;
     std::list<Item> items;
+    std::vector<Model> models;
     int xOffset;
     int yOffset;
     float scale;
@@ -50,6 +52,8 @@ private:
 
     // create the game
     Game();
+
+    void loadModels();
 
     void giveOrders(auto it);
     void attackHere(auto it);

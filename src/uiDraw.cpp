@@ -117,39 +117,70 @@ void setup3DFrame(const float camera[6])
   glTranslatef(camera[0],camera[1],camera[2]);
 }
 
-void drawTile3D(int xCoord, int yCoord, int type, int base)
+void drawModel(std::vector<Model> models, int modelnum, int xCoord, int yCoord, int type)
+{
+  // Set up the matrix
+  glPushMatrix();
+  glTranslatef(xCoord + 0.5, 0, yCoord + 0.5);
+  glRotatef(90, 0, 1, 0);
+  glTranslatef(-0.5, 0.0, -0.5);
+
+  // Draw each triangle
+  for (int i = 0; i < models[modelnum].triangles.size(); i++)
+  {
+    Triangle t = models[modelnum].triangles[i];
+
+    // Draw the triangle
+    glBegin(GL_TRIANGLES);
+    glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    glVertex3f(models[modelnum].vertices[t.a].x,models[modelnum].vertices[t.a].y,models[modelnum].vertices[t.a].z);
+    glVertex3f(models[modelnum].vertices[t.b].x,models[modelnum].vertices[t.b].y,models[modelnum].vertices[t.b].z);
+    glVertex3f(models[modelnum].vertices[t.c].x,models[modelnum].vertices[t.c].y,models[modelnum].vertices[t.c].z);
+    glEnd();
+  }
+  glPopMatrix();
+
+}
+
+void drawTile3D(int xCoord, int yCoord, int type, int base, std::vector<Model> models)
 {
   if (type == 0)
   {
+    drawModel(models, 0, xCoord, yCoord, type);
     // Draw Floor
-    glBegin(GL_TRIANGLES);
-      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
-      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
-      glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
-      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
-      glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
-      glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
-      glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
-    glEnd();
+    // glBegin(GL_TRIANGLES);
+    //   glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    //   glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+    //   glVertex3f( 1.0f + xCoord, 0.0f, 1.0f + yCoord);
+    //   glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+    // glEnd();
+    // glBegin(GL_TRIANGLES);
+    //   glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    //   glVertex3f( 0.0f + xCoord, 0.0f, 1.0f + yCoord);
+    //   glVertex3f( 0.0f + xCoord, 0.0f, 0.0f + yCoord);
+    //   glVertex3f( 1.0f + xCoord, 0.0f, 0.0f + yCoord);
+    // glEnd();
 
-    // Draw Ceiling
-    glBegin(GL_TRIANGLES);
-      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
-      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
-      glVertex3f( 1.0f + xCoord, 1.0f, 1.0f + yCoord);
-      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
-    glEnd();
-    glBegin(GL_TRIANGLES);
-      glColor3f(colors[0][type], colors[1][type], colors[2][type]);
-      glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
-      glVertex3f( 0.0f + xCoord, 1.0f, 0.0f + yCoord);
-      glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
-    glEnd();
-    // glFlush();
+    // // Draw Ceiling
+    // glBegin(GL_TRIANGLES);
+    //   glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    //   glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+    //   glVertex3f( 1.0f + xCoord, 1.0f, 1.0f + yCoord);
+    //   glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+    // glEnd();
+    // glBegin(GL_TRIANGLES);
+    //   glColor3f(colors[0][type], colors[1][type], colors[2][type]);
+    //   glVertex3f( 0.0f + xCoord, 1.0f, 1.0f + yCoord);
+    //   glVertex3f( 0.0f + xCoord, 1.0f, 0.0f + yCoord);
+    //   glVertex3f( 1.0f + xCoord, 1.0f, 0.0f + yCoord);
+    // glEnd();
+
+    if (base)
+    {
+
+    }
   }
+  // return;
   else
   {
     // Draw Walls

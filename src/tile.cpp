@@ -17,13 +17,6 @@ void Tile::draw(int xOffset, int yOffset, float scale) const
     drawTile(xCoord, yCoord, xOffset, yOffset, scale, type, base);
 }
 
-// Give the display function everything it needs to draw the tile in 3D
-void Tile::draw3D() const
-{
-  if (visible)
-    drawTile3D(xCoord, yCoord, type, base);
-}
-
 // Reduce the strength.  Destroy if strength hits 0
 void Tile::takeDamage(int damage)
 {
@@ -82,4 +75,28 @@ void calculateVisibility(Tile map[X][Y])
 
   }
 
+}
+
+// This function will restructure the map so that no wall sections are alone
+bool restructure(Tile map[X][Y])
+{
+  bool changed = false;
+
+  // Check every non-border tile
+  for (int i = 1; i < X - 1; i++)
+    for (int j = 1; j < Y - 1; j++)
+    {
+      // Only check visible non-ground tiles
+      if (map[i][j].isVisible() and map[i][j].getType())
+      {
+        // Check if the tile has two open tiles on opposite sides
+        if ((map[i - 1][j].isOpen() and map[i + 1][j].isOpen()) or 
+            (map[i][j - 1].isOpen() and map[i][j + 1].isOpen()))
+            {
+              map[i][j].setType(0);
+              changed = true;
+            }
+      }
+    }
+  return changed;
 }

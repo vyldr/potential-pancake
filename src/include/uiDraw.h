@@ -2,6 +2,8 @@
 #define UI_DRAW_H
 
 #include <math.h>
+#include "model.h"
+
 
 // Drawing functions for various game items
 void drawTile(int xCoord, int yCoord, int xOffset, int yOffset, float scale, int type, int base);
@@ -10,7 +12,8 @@ void drawItem(float xCoord, float yCoord, int type, int xOffset, int yOffset, fl
 void drawCenterBox(float scale);
 
 void setup3DFrame(const float camera[6]);
-void drawTile3D(int xCoord, int yCoord, int type, int base);
+void drawModel(std::vector<Model> models, int modelnum, int xCoord, int yCoord, int type);
+void drawTile3D(int xCoord, int yCoord, int type, int base, std::vector<Model> models);
 void drawCrosshair();
 
 // General drawing functions
