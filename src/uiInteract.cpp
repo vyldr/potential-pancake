@@ -239,7 +239,7 @@ void GameWindow::initialize(int argc, char ** argv, const char * title)
   glEnable(GL_FOG);
   glFogf(GL_FOG_MODE,GL_LINEAR);
   glFogf(GL_FOG_START,3);
-  glFogf(GL_FOG_END,10);
+  glFogf(GL_FOG_END,6);
 
   // Let OpenGL know how to call our functions
   glutDisplayFunc(   drawCallback         );

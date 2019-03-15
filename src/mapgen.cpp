@@ -156,8 +156,8 @@ int mapgenRandom(int min, int max)
 
 void mapgenRandomize(int tmap1[X][Y], int probability)
 {
-  for (int i = 1; i < X - 1; i++)
-    for (int j = 1; j < Y - 1; j++)
+  for (int i = 2; i < X - 2; i++) // Keep a margin of 2 to make processing the map easier
+    for (int j = 2; j < Y - 2; j++)
       if(mapgenRandom(0, 100) <= probability)
         tmap1[i][j] = 0;
       else

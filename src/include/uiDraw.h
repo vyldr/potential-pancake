@@ -12,8 +12,8 @@ void drawItem(float xCoord, float yCoord, int type, int xOffset, int yOffset, fl
 void drawCenterBox(float scale);
 
 void setup3DFrame(const float camera[6]);
-void drawModel(std::vector<Model> models, int modelnum, int xCoord, int yCoord, int type);
-void drawTile3D(int xCoord, int yCoord, int type, int base, std::vector<Model> models);
+void drawModel(std::vector<Model> models, int modelnum, int direction, int xCoord, int yCoord, int type);
+void drawTile3D(int xCoord, int yCoord, int type, int base, int shape, int direction, std::vector<Model> models);
 void drawCrosshair();
 
 // General drawing functions

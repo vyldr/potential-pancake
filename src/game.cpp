@@ -20,15 +20,11 @@ Game::Game() : gameOver(false), xOffset(X_SIZE / 2), yOffset(Y_SIZE / 2), scale(
       {
         map[x][y].setBase();
 
-        // Make the view start on the base
-        // xOffset = (x + 0.5) * TILE_SIZE;
-        // yOffset = (y + 0.5) * TILE_SIZE;
-
         // Start the camera at the base
         // Position
         camera[0] = -(x + 0.5);
         camera[2] = -(y + 0.5);
-        camera[1] = -0.2;
+        camera[1] = 0.2;
         // Angle
         camera[4] = 0;
 
@@ -237,31 +233,134 @@ void Game :: draw() const
 void Game :: loadModels()
 {
   // Open space
-  Model model;
-  Vertex ver[8];
-  ver[0] = {0,0,0};
-  ver[1] = {0,0,1};
-  ver[2] = {0,1,0};
-  ver[3] = {0,1,1};
-  ver[4] = {1,0,0};
-  ver[5] = {1,0,1};
-  ver[6] = {1,1,0};
-  ver[7] = {1,1,1};
-  for (int i = 0; i < 8; i++)
   {
-    model.vertices.push_back(ver[i]);
-  }
+    Model model;
+    Vertex ver[8];
+    ver[0] = {-0.5,-0.5,-0.5};
+    ver[1] = {-0.5,-0.5,0.5};
+    ver[2] = {-0.5,1.5,-0.5};
+    ver[3] = {-0.5,1.5,0.5};
+    ver[4] = {0.5,-0.5,-0.5};
+    ver[5] = {0.5,-0.5,0.5};
+    ver[6] = {0.5,1.5,-0.5};
+    ver[7] = {0.5,1.5,0.5};
 
-  Triangle tri[4];
-  tri[0] = {0,1,5};
-  tri[1] = {0,5,4};
-  tri[2] = {2,3,7};
-  tri[3] = {2,7,6};
-  for (int i = 0; i < 4; i++)
-  {
-    model.triangles.push_back(tri[i]);
+    
+    for (int i = 0; i < 8; i++)
+    {
+      model.vertices.push_back(ver[i]);
+    }
+
+    Triangle tri[4];
+    tri[0] = {0,1,5};
+    tri[1] = {0,5,4};
+    tri[2] = {2,3,7};
+    tri[3] = {2,7,6};
+    for (int i = 0; i < 4; i++)
+    {
+      model.triangles.push_back(tri[i]);
+    }
+    models.push_back(model);
   }
-  models.push_back(model);
+  {
+    // Outside corner
+    Model model;
+    Vertex ver[12];
+    ver[0]  = {-0.5,-0.5,-0.5};
+    ver[1]  = {-0.5,-0.5,0.5};
+    ver[2]  = {-0.5,0.5,-0.5};
+    ver[3]  = {-0.5,0.5,0.5};
+    ver[4]  = {0.5,-0.5,-0.5};
+    ver[5]  = {0.5,-0.5,0.5};
+    ver[6]  = {0.5,0.5,-0.5};
+    ver[7]  = {0.5,0.5,0.5};
+    ver[8]  = {-0.5,1.5,-0.5};
+    ver[9]  = {-0.5,1.5,0.5};
+    ver[10] = {0.5,1.5,-0.5};
+    ver[11] = {0.5,1.5,0.5};
+
+    for (int i = 0; i < 12; i++)
+    {
+      model.vertices.push_back(ver[i]);
+    }
+
+    Triangle tri[4];
+    tri[0] = {0,1,6};
+    tri[1] = {5,1,6};
+    tri[2] = {8,9,6};
+    tri[3] = {11,9,6};
+    for (int i = 0; i < 4; i++)
+    {
+      model.triangles.push_back(tri[i]);
+    }
+    models.push_back(model);
+  }
+  {
+    // Edge
+    Model model;
+    Vertex ver[12];
+    ver[0]  = {-0.5,-0.5,-0.5};
+    ver[1]  = {-0.5,-0.5,0.5};
+    ver[2]  = {-0.5,0.5,-0.5};
+    ver[3]  = {-0.5,0.5,0.5};
+    ver[4]  = {0.5,-0.5,-0.5};
+    ver[5]  = {0.5,-0.5,0.5};
+    ver[6]  = {0.5,0.5,-0.5};
+    ver[7]  = {0.5,0.5,0.5};
+    ver[8]  = {-0.5,1.5,-0.5};
+    ver[9]  = {-0.5,1.5,0.5};
+    ver[10] = {0.5,1.5,-0.5};
+    ver[11] = {0.5,1.5,0.5};
+
+    for (int i = 0; i < 12; i++)
+    {
+      model.vertices.push_back(ver[i]);
+    }
+
+    Triangle tri[4];
+    tri[0] = {0,1,6};
+    tri[1] = {7,1,6};
+    tri[2] = {8,9,6};
+    tri[3] = {7,9,6};
+    for (int i = 0; i < 4; i++)
+    {
+      model.triangles.push_back(tri[i]);
+    }
+    models.push_back(model);
+  }
+    {
+    // Inside corner
+    Model model;
+    Vertex ver[12];
+    ver[0]  = {-0.5,-0.5,-0.5};
+    ver[1]  = {-0.5,-0.5,0.5};
+    ver[2]  = {-0.5,0.5,-0.5};
+    ver[3]  = {-0.5,0.5,0.5};
+    ver[4]  = {0.5,-0.5,-0.5};
+    ver[5]  = {0.5,-0.5,0.5};
+    ver[6]  = {0.5,0.5,-0.5};
+    ver[7]  = {0.5,0.5,0.5};
+    ver[8]  = {-0.5,1.5,-0.5};
+    ver[9]  = {-0.5,1.5,0.5};
+    ver[10] = {0.5,1.5,-0.5};
+    ver[11] = {0.5,1.5,0.5};
+
+    for (int i = 0; i < 12; i++)
+    {
+      model.vertices.push_back(ver[i]);
+    }
+
+    Triangle tri[4];
+    tri[0] = {0,7,6};
+    tri[1] = {0,7,3};
+    tri[2] = {8,7,6};
+    tri[3] = {8,7,3};
+    for (int i = 0; i < 4; i++)
+    {
+      model.triangles.push_back(tri[i]);
+    }
+    models.push_back(model);
+  }
 }
 
 // Draw the frame in 3D.  This is better than 2D in every way
@@ -274,11 +373,12 @@ void Game :: draw3D() const
     for (int j = 0; j < Y; j++)
       if (map[i][j].isVisible())
         drawTile3D(map[i][j].getx(),
-                   map[i][j].gety(), 
-                   map[i][j].getType(), 
+                   map[i][j].gety(),
+                   map[i][j].getType(),
                    map[i][j].getBase(),
+                   map[i][j].getShape(),
+                   map[i][j].getDirection(),
                    models);
-      // map[i][j].draw3D();
 
 
 }

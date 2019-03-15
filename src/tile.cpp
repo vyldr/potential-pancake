@@ -75,6 +75,7 @@ void calculateVisibility(Tile map[X][Y])
 
   }
 
+  calculateShape(map);
 }
 
 // This function will restructure the map so that no wall sections are alone
@@ -99,4 +100,100 @@ bool restructure(Tile map[X][Y])
       }
     }
   return changed;
+}
+
+// Determine the 3D model to use for each tile
+void calculateShape(Tile map[X][Y])
+{
+  
+  for (int i = 1; i < X - 1; i++)
+    for (int j = 1; j < Y - 1; j++)
+    {
+        map[i][j].setShape(0);
+        map[i][j].setDirection(0);
+      // Only check visible non-ground tiles
+      if (map[i][j].isVisible() and map[i][j].getType())
+      {
+        // Check the bordering spaces
+        bool b[3][3];
+        for (int k = 0; k < 3; k++)
+          for (int l = 0; l < 3; l++)
+            b[k][l] = map[i + k - 1][j + l - 1].isOpen();
+
+        /* Explanation of the following mess
+         *
+         * This will check which bordering tiles are 'open'
+         * and use that to determine the correct shape and model
+         * and then determine the direction to rotate it
+         * 
+         * Shapes:
+         *   1   2   3   4 
+         *  --- --- --- ---
+         * |## |###| ##|###|
+         * |#* |#*#|#*#|#*#|
+         * |   |   |## |## |
+         *  --- --- --- ---
+         */
+
+
+        // Check for two open edges
+        if ((b[0][1] and b[1][2]) or 
+            (b[1][2] and b[2][1]) or 
+            (b[2][1] and b[1][0]) or 
+            (b[1][0] and b[0][1]))
+        {
+          map[i][j].setShape(1);
+          if (b[0][1] and b[1][2])
+            map[i][j].setDirection(0);
+          else if (b[1][2] and b[2][1])
+            map[i][j].setDirection(1);
+          else if (b[2][1] and b[1][0])
+            map[i][j].setDirection(2);
+          else if (b[1][0] and b[0][1])
+            map[i][j].setDirection(3);
+        }
+
+        // Check for one open edge
+        else if ((b[0][1]) or 
+                 (b[1][2]) or 
+                 (b[2][1]) or 
+                 (b[1][0]))
+        {
+          map[i][j].setShape(2);
+          if (b[0][1])
+            map[i][j].setDirection(0);
+          else if (b[1][2])
+            map[i][j].setDirection(1);
+          else if (b[2][1])
+            map[i][j].setDirection(2);
+          else if (b[1][0])
+            map[i][j].setDirection(3);
+        }
+
+        // // Check for two corners
+        // else if ((b[0][0] and b[2][2]) or
+        //           b[0][2] and b[2][0])
+        // {
+        //   map[i][j].setShape(4);
+        //   if (b[0][0])
+        //     map[i][j].setDirection(0);
+        //   else if (b[0][2])
+        //     map[i][j].setDirection(1);
+        // }
+
+        // Check for one corner
+        else 
+        {
+          map[i][j].setShape(3);
+          if (b[0][0])
+            map[i][j].setDirection(0);
+          else if (b[0][2])
+            map[i][j].setDirection(1);
+          else if (b[2][2])
+            map[i][j].setDirection(2);
+          else if (b[2][0])
+            map[i][j].setDirection(3);
+        }
+      }
+    }
 }
